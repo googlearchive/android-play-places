@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_title">PlacePicker Sample</string>
+
+    <string name="pick_title">Pick a place</string>
+    <string name="pick_text">Clicking below constructs an Intent to show the place picker dialog.
+\nIf a place was selected, its details are read from the returned data and shown in a separate card.
+</string>
+    <string name="pick_action">Pick a place</string>
+
+    <string name="detail_text">Place id: %1$s\nAddress: %2$s\nPhone: %3$s\n\n%4$s</string>
+
+    <string name="empty"></string>
+</resources>
