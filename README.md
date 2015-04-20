@@ -5,8 +5,15 @@ Samples that use the [Google Places API for Android](https://developers.google.c
 
 This repo contains the following samples:
 
-1. [PlacePicker](https://github.com/googlesamples/android-play-places/PlacePicker): Uses the [PlacePicker widget](https://developers.google.com/places/android/placepicker) and the [Geo Data API](https://developers.google.com/places/android/place-details) to select a place and retrieve its details.
-2. [PlaceComplete](https://github.com/googlesamples/android-play-places/PlaceComplete): Implements an AutoCompleteTextView backed by the [Place Autocomplete API](https://developers.google.com/places/android/autocomplete).
+1. [PlacePicker](https://github.com/googlesamples/android-play-places/tree/master/PlacePicker): 
+Uses the [PlacePicker widget](https://developers.google.com/places/android/placepicker)
+and the [Geo Data API](https://developers.google.com/places/android/place-details)
+to select a place and retrieve its details.
+2. [PlaceComplete](https://github.com/googlesamples/android-play-places/tree/master/PlaceComplete):
+Implements an AutoCompleteTextView backed by the
+[Place Autocomplete API](https://developers.google.com/places/android/autocomplete).
+
+Note that each folder contains a distinct sample and must be imported separately.
 
 Pre-requisites
 --------------
@@ -18,8 +25,20 @@ Pre-requisites
 Getting Started
 ---------------
 
-This sample uses the Gradle build system. To build this project, use the
-"gradlew build" command or use "Import Project" in Android Studio.
+This sample uses the Gradle build system. 
+
+First download the samples by cloning this repository or downloading an archived
+snapshot. (See the options on the right hand side.)
+
+In Android Studio, use the "Import non-Android Studio project" or 
+"Import Project" option. Next select one of the sample directories
+("PlacePicker" or "PlaceComplete").  If prompted for a gradle configuration
+accept the default settings. 
+
+Alternatively use the "gradlew build" command to build the project directly.
+
+Don't forget to add your API key to the AndroidManifest.xml. 
+(See https://developers.google.com/places/android/signup)
 
 Support
 -------
