@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2015 Google Inc. All Rights Reserved.
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,63 +14,68 @@
    limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:paddingLeft="@dimen/horizontal_page_margin"
-              android:paddingRight="@dimen/horizontal_page_margin"
-              android:paddingTop="@dimen/vertical_page_margin"
-              android:paddingBottom="@dimen/vertical_page_margin"
-        >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/vertical_page_margin"
+        android:paddingLeft="@dimen/horizontal_page_margin"
+        android:paddingRight="@dimen/horizontal_page_margin"
+        android:paddingTop="@dimen/vertical_page_margin">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center_horizontal"
             android:text="@string/intro_message"
-            android:layout_gravity="center_horizontal"/>
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <AutoCompleteTextView
+        <AutoCompleteTextView
+            android:id="@+id/autocomplete_places"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:hint="@string/autocomplete_hint"
-            android:id="@+id/autocomplete_places"
-            android:textColor="@android:color/primary_text_light"
-            android:layout_gravity="center_horizontal"/>
+            android:textColor="@android:color/primary_text_light" />
 
-    <ImageView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/powered_by_google_light"
-            android:layout_gravity="right"/>
+            android:layout_gravity="right"
+            android:src="@drawable/powered_by_google_light" />
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/clear_text"
+        <Button
             android:id="@+id/button_clear"
-            android:layout_gravity="center_horizontal"/>
-
-    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/selected_place"/>
+            android:layout_gravity="center_horizontal"
+            android:text="@string/clear_text" />
 
-    <TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text=""
+            android:text="@string/selected_place"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/place_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:autoLink="all"
-            android:id="@+id/place_details"/>
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
+        <TextView
+            android:id="@+id/place_attribution"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text=""
             android:autoLink="all"
-            android:id="@+id/place_attribution"/>
-</LinearLayout>
+            android:text=""
+            android:paddingTop="@dimen/vertical_page_margin"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+</ScrollView>

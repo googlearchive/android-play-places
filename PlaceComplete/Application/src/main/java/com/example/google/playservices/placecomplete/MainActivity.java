@@ -53,7 +53,10 @@ public class MainActivity extends SampleActivityBase
     private PlaceAutocompleteAdapter mAdapter;
 
     private AutoCompleteTextView mAutocompleteView;
+
     private TextView mPlaceDetailsText;
+
+    private TextView mPlaceDetailsAttribution;
 
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
@@ -76,8 +79,9 @@ public class MainActivity extends SampleActivityBase
         // Register a listener that receives callbacks when a suggestion has been selected
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
-        // Retrieve the TextView that will display details of the selected place.
+        // Retrieve the TextViews that will display details and attributions of the selected place.
         mPlaceDetailsText = (TextView) findViewById(R.id.place_details);
+        mPlaceDetailsAttribution = (TextView) findViewById(R.id.place_attribution);
 
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
         // the entire world.
@@ -142,7 +146,7 @@ public class MainActivity extends SampleActivityBase
             if (!places.getStatus().isSuccess()) {
                 // Request did not complete successfully
                 Log.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
-
+                places.release();
                 return;
             }
             // Get the Place object from the buffer.
@@ -153,7 +157,18 @@ public class MainActivity extends SampleActivityBase
                     place.getId(), place.getAddress(), place.getPhoneNumber(),
                     place.getWebsiteUri()));
 
+            // Display the third party attributions if set.
+            final CharSequence thirdPartyAttribution = places.getAttributions();
+            if (thirdPartyAttribution == null) {
+                mPlaceDetailsAttribution.setVisibility(View.GONE);
+            } else {
+                mPlaceDetailsAttribution.setVisibility(View.VISIBLE);
+                mPlaceDetailsAttribution.setText(Html.fromHtml(thirdPartyAttribution.toString()));
+            }
+
             Log.i(TAG, "Place details received: " + place.getName());
+
+            places.release();
         }
     };
 
@@ -172,10 +187,9 @@ public class MainActivity extends SampleActivityBase
      * functionality.
      * This automatically sets up the API client to handle Activity lifecycle events.
      */
-    protected synchronized void rebuildGoogleApiClient() {
+    private void rebuildGoogleApiClient() {
         // When we build the GoogleApiClient we specify where connected and connection failed
-        // callbacks should be returned, which Google APIs our app uses and which OAuth 2.0
-        // scopes our app requests.
+        // callbacks should be returned and which Google APIs our app uses.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addConnectionCallbacks(this)
