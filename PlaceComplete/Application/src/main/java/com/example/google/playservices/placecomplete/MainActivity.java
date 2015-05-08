@@ -42,7 +42,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends SampleActivityBase
-        implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+        implements GoogleApiClient.OnConnectionFailedListener {
 
     /**
      * GoogleApiClient wraps our service connection to Google Play Services and provides access
@@ -65,10 +65,14 @@ public class MainActivity extends SampleActivityBase
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set up the Google API Client if it has not been initialised yet.
-        if (mGoogleApiClient == null) {
-            rebuildGoogleApiClient();
-        }
+        // Construct a GoogleApiClient for the {@link Places#GEO_DATA_API} using AutoManage
+        // functionality, which automatically sets up the API client to handle Activity lifecycle
+        // events. If your activity does not extend FragmentActivity, make sure to call connect()
+        // and disconnect() explicitly.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
 
         setContentView(R.layout.activity_main);
 
@@ -86,7 +90,7 @@ public class MainActivity extends SampleActivityBase
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
         // the entire world.
         mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,
-                BOUNDS_GREATER_SYDNEY, null);
+                mGoogleApiClient, BOUNDS_GREATER_SYDNEY, null);
         mAutocompleteView.setAdapter(mAdapter);
 
         // Set up the 'clear text' button that clears the text in the autocomplete view
@@ -181,22 +185,6 @@ public class MainActivity extends SampleActivityBase
 
     }
 
-
-    /**
-     * Construct a GoogleApiClient for the {@link Places#GEO_DATA_API} using AutoManage
-     * functionality.
-     * This automatically sets up the API client to handle Activity lifecycle events.
-     */
-    private void rebuildGoogleApiClient() {
-        // When we build the GoogleApiClient we specify where connected and connection failed
-        // callbacks should be returned and which Google APIs our app uses.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, 0 /* clientId */, this)
-                .addConnectionCallbacks(this)
-                .addApi(Places.GEO_DATA_API)
-                .build();
-    }
-
     /**
      * Called when the Activity could not connect to Google Play services and the auto manager
      * could resolve the error automatically.
@@ -214,26 +202,6 @@ public class MainActivity extends SampleActivityBase
         Toast.makeText(this,
                 "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
                 Toast.LENGTH_SHORT).show();
-
-        // Disable API access in the adapter because the client was not initialised correctly.
-        mAdapter.setGoogleApiClient(null);
-
-    }
-
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        // Successfully connected to the API client. Pass it to the adapter to enable API access.
-        mAdapter.setGoogleApiClient(mGoogleApiClient);
-        Log.i(TAG, "GoogleApiClient connected.");
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        // Connection to the API client has been suspended. Disable API access in the client.
-        mAdapter.setGoogleApiClient(null);
-        Log.e(TAG, "GoogleApiClient connection suspended.");
     }
 
 }

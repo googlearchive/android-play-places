@@ -45,12 +45,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Note that this adapter requires a valid {@link com.google.android.gms.common.api.GoogleApiClient}.
  * The API client must be maintained in the encapsulating Activity, including all lifecycle and
- * connection states. When the API client is not available (for example because it has been
- * disconnected or suspended), call {@link #setGoogleApiClient(com.google.android.gms.common.api.GoogleApiClient)}
- * with
- * a <code>null</code> parameter to disable this adapter. It will stop returning results until a
- * valid Api Client is set again. The API client must be connected with the {@link
- * Places#GEO_DATA_API} API.
+ * connection states. The API client must be connected with the {@link Places#GEO_DATA_API} API.
  */
 public class PlaceAutocompleteAdapter
         extends ArrayAdapter<PlaceAutocompleteAdapter.PlaceAutocomplete> implements Filterable {
@@ -81,27 +76,12 @@ public class PlaceAutocompleteAdapter
      *
      * @see android.widget.ArrayAdapter#ArrayAdapter(android.content.Context, int)
      */
-    public PlaceAutocompleteAdapter(Context context, int resource, LatLngBounds bounds,
-            AutocompleteFilter filter) {
+    public PlaceAutocompleteAdapter(Context context, int resource, GoogleApiClient googleApiClient,
+            LatLngBounds bounds, AutocompleteFilter filter) {
         super(context, resource);
+        mGoogleApiClient = googleApiClient;
         mBounds = bounds;
         mPlaceFilter = filter;
-    }
-
-    /**
-     * Sets the GoogleApiClient to use for autocomplete queries.
-     * Autocomplete queries are suspended when the client is set to null.
-     * Ensure that the client has successfully connected, contains the {@link Places#GEO_DATA_API}
-     * API and is available for queries, otherwise API access will be disabled when it is set here.
-     */
-    public void setGoogleApiClient(GoogleApiClient googleApiClient) {
-        if (googleApiClient == null || !googleApiClient.isConnected()) {
-            mGoogleApiClient = null;
-        } else {
-            mGoogleApiClient = googleApiClient;
-        }
-
-
     }
 
     /**
@@ -178,7 +158,7 @@ public class PlaceAutocompleteAdapter
      * @see Places#GEO_DATA_API#getAutocomplete(CharSequence)
      */
     private ArrayList<PlaceAutocomplete> getAutocomplete(CharSequence constraint) {
-        if (mGoogleApiClient != null) {
+        if (mGoogleApiClient.isConnected()) {
             Log.i(TAG, "Starting autocomplete query for: " + constraint);
 
             // Submit the query to the autocomplete API and retrieve a PendingResult that will
