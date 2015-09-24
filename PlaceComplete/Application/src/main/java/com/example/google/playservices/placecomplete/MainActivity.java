@@ -20,6 +20,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
@@ -89,8 +90,8 @@ public class MainActivity extends SampleActivityBase
 
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
         // the entire world.
-        mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,
-                mGoogleApiClient, BOUNDS_GREATER_SYDNEY, null);
+        mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, BOUNDS_GREATER_SYDNEY,
+                null);
         mAutocompleteView.setAdapter(mAdapter);
 
         // Set up the 'clear text' button that clears the text in the autocomplete view
@@ -118,24 +119,26 @@ public class MainActivity extends SampleActivityBase
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             /*
              Retrieve the place ID of the selected item from the Adapter.
-             The adapter stores each Place suggestion in a PlaceAutocomplete object from which we
-             read the place ID.
+             The adapter stores each Place suggestion in a AutocompletePrediction from which we
+             read the place ID and title.
               */
-            final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
-            final String placeId = String.valueOf(item.placeId);
-            Log.i(TAG, "Autocomplete item selected: " + item.description);
+            final AutocompletePrediction item = mAdapter.getItem(position);
+            final String placeId = item.getPlaceId();
+            final CharSequence primaryText = item.getPrimaryText(null);
+
+            Log.i(TAG, "Autocomplete item selected: " + primaryText);
 
             /*
              Issue a request to the Places Geo Data API to retrieve a Place object with additional
-              details about the place.
+             details about the place.
               */
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
 
-            Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
+            Toast.makeText(getApplicationContext(), "Clicked: " + primaryText,
                     Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "Called getPlaceById to get Place details for " + item.placeId);
+            Log.i(TAG, "Called getPlaceById to get Place details for " + placeId);
         }
     };
 
