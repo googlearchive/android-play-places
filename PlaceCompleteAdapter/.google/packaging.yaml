@@ -1,3 +1,4 @@
+
 # GOOGLE SAMPLE PACKAGING DATA
 #
 # This file is used by Google as part of our samples packaging process.
@@ -8,5 +9,5 @@ technologies: [Android]
 categories:   [PlayServices]
 languages:    [Java]
 solutions:    [Mobile]
-github:       android-PlaceComplete
+github:       android-PlaceCompleteAdapter
 license: apache2

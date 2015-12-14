@@ -14,10 +14,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
 <resources>
-
-    <!-- Activity themes -->
-    <style name="Theme.Base" parent="android:Theme.Material.Light">
-    </style>
-
+    <string name="app_name">PlaceCompleteAdapter</string>
+    <string name="intro_message">
+        <![CDATA[
+        
+            
+            This sample uses the Google Places Geo Data API for Android to provide autocomplete suggestions.
+            It shows how to use a custom Adapter to display suggestions in an AutocompleteTextView.
+            Once selected, details about a place are retrieved based on its Place id from the
+            Places Geo Data API.
+            
+        
+        ]]>
+    </string>
 </resources>
