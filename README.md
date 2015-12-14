@@ -9,17 +9,23 @@ This repo contains the following samples:
 Uses the [PlacePicker widget](https://developers.google.com/places/android/placepicker)
 and the [Geo Data API](https://developers.google.com/places/android/place-details)
 to select a place and retrieve its details.
-2. [PlaceComplete](https://github.com/googlesamples/android-play-places/tree/master/PlaceComplete):
-Implements an AutoCompleteTextView backed by the
-[Place Autocomplete API](https://developers.google.com/places/android/autocomplete).
+2. [PlaceCompleteActivity](https://github.com/googlesamples/android-play-places/tree/master/PlaceCompleteActivity):
+Uses an Intent to open a fullscreen autocomplete widget from the
+[Place Autocomplete API].
+3. [PlaceCompleteFragment](https://github.com/googlesamples/android-play-places/tree/master/PlaceCompleteFragment):
+Uses a widget (PlaceAutocompleteFragment) provided by the
+[Place Autocomplete API] to display autocomplete suggestions.
+4. [PlaceCompleteAdapter](https://github.com/googlesamples/android-play-places/tree/master/PlaceCompleteAdapter):
+Implements an Android AutoCompleteTextView backed by the
+[Place Autocomplete API].
 
 Note that each folder contains a distinct sample and must be imported separately.
 
 Pre-requisites
 --------------
 
-- Android SDK v21
-- Android Build Tools v21.1.1
+- Android SDK v23
+- Android Build Tools v23.0.2
 - Android Support Repository
 
 Getting Started
@@ -54,7 +60,7 @@ CONTRIBUTING.md.
 License
 -------
 
-Copyright 2014 Google, Inc.
+Copyright 2015 Google, Inc.
 
 Licensed to the Apache Software Foundation (ASF) under one or more contributor
 license agreements.  See the NOTICE file distributed with this work for
@@ -70,3 +76,5 @@ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 License for the specific language governing permissions and limitations under
 the License.
+
+[Place Autocomplete API]: <https://developers.google.com/places/android/autocomplete>
