@@ -141,7 +141,9 @@ public class PlaceAutocompleteAdapter
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                // this method call in background thread, so use different list to hold the data
+
+                // We need a separate list to store the results, since
+                // this is run asynchronously.
                 ArrayList<AutocompletePrediction> filterData = new ArrayList<>();
 
                 // Skip the autocomplete query if no constraints are given.
@@ -156,13 +158,13 @@ public class PlaceAutocompleteAdapter
                 } else {
                     results.count = 0;
                 }
-               
+
                 return results;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-				
+
                 if (results != null && results.count > 0) {
                     // The API returned at least one result, update the data.
                     mResultList = (ArrayList<AutocompletePrediction>) results.values;
