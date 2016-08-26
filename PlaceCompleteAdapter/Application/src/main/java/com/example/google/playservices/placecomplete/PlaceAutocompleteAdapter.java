@@ -141,23 +141,31 @@ public class PlaceAutocompleteAdapter
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
+                // this method call in background thread, so use different list to hold the data
+                ArrayList<AutocompletePrediction> filterData = new ArrayList<>();
+
                 // Skip the autocomplete query if no constraints are given.
                 if (constraint != null) {
                     // Query the autocomplete API for the (constraint) search string.
-                    mResultList = getAutocomplete(constraint);
-                    if (mResultList != null) {
-                        // The API successfully returned results.
-                        results.values = mResultList;
-                        results.count = mResultList.size();
-                    }
+                    filterData = getAutocomplete(constraint);
                 }
+
+                results.values = filterData;
+                if (filterData != null) {
+                    results.count = filterData.size();
+                } else {
+                    results.count = 0;
+                }
+               
                 return results;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+				
                 if (results != null && results.count > 0) {
                     // The API returned at least one result, update the data.
+                    mResultList = (ArrayList<AutocompletePrediction>) results.values;
                     notifyDataSetChanged();
                 } else {
                     // The API did not return any results, invalidate the data set.
