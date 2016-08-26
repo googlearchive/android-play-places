@@ -25,7 +25,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import com.example.android.common.activities.SampleActivityBase;
 import com.example.android.common.logger.Log;
-import com.example.google.playservices.placecompletefragment.R;
 
 import android.content.Intent;
 import android.content.res.Resources;
